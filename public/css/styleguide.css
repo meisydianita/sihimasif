@@ -1,0 +1,26 @@
+:root {
+  --paragraf-font-family: "Poppins", Helvetica;
+  --paragraf-font-weight: 400;
+  --paragraf-font-size: 14px;
+  --paragraf-letter-spacing: -0.14px;
+  --paragraf-line-height: 150%;
+  --paragraf-font-style: normal;
+  --top-font-family: "Poppins", Helvetica;
+  --top-font-weight: 400;
+  --top-font-size: 16px;
+  --top-letter-spacing: 0px;
+  --top-line-height: 129.99999523162842%;
+  --top-font-style: normal;
+  --nav-font-family: "Poppins", Helvetica;
+  --nav-font-weight: 400;
+  --nav-font-size: 18px;
+  --nav-letter-spacing: 0px;
+  --nav-line-height: normal;
+  --nav-font-style: normal;
+  --p-landing-font-family: "Poppins", Helvetica;
+  --p-landing-font-weight: 400;
+  --p-landing-font-size: 16px;
+  --p-landing-letter-spacing: -0.16px;
+  --p-landing-line-height: 150%;
+  --p-landing-font-style: normal;
+}
