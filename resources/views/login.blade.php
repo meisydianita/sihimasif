@@ -20,26 +20,27 @@
           <p class="p">
             Langkah kecil hari ini, perubahan besar esok hari. Yuk masuk!
           </p>
+          <form action="{{ route('postlogin') }}" method="post">
+            @csrf
+              <div class="frame-wrapper">
+                <div class="group-wrapper">
+                  <div class="group-3">
+                    <div class="form-group">
+                      <label>Email</label>
+                      <input type="email" name="email" placeholder="Masukkan email">
+                    </div>
 
-          <div class="frame-wrapper">
-            <div class="group-wrapper">
-              <div class="group-3">
+                    <div class="form-group">
+                      <label>Kata Sandi</label>
+                      <input type="password" name="password" placeholder="Masukkan kata sandi">
+                    </div>
 
-                <div class="form-group">
-                  <label>Nama Pengguna</label>
-                  <input type="text" placeholder="Masukkan nama pengguna">
+                    <button class="login-button" type="submit">Masuk</button>
+
+                  </div>
                 </div>
-
-                <div class="form-group">
-                  <label>Kata Sandi</label>
-                  <input type="password" placeholder="Masukkan kata sandi">
-                </div>
-
-                <button class="login-button">Masuk</button>
-
               </div>
-            </div>
-          </div>
+          </form>
         </div>
 
         <p class="belum-memiliki-akun">
