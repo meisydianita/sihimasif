@@ -12,7 +12,7 @@
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="../index.html" class="brand-link">
+          <a href="#l" class="brand-link">
             <!--begin::Brand Image-->
             <img
               src="{{asset('AdminLTE/dist/assets/img/himasif 24-25.png')}}"
@@ -42,13 +42,13 @@
             >
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-palette"></i>
+                  <i class="nav-icon fa-solid fa-house"></i>
                   <p>Beranda</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-speedometer"></i>
+                  <i class="nav-icon fa-solid fa-envelope"></i>
                   <p>
                     Surat-menyurat
                     <i class="nav-arrow bi bi-chevron-right"></i>
@@ -56,13 +56,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="../index.html" class="nav-link">
+                    <a href="#" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
                       <p>Surat Masuk</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="../index2.html" class="nav-link">
+                    <a href="#" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
                       <p>Surat Keluar</p>
                     </a>
@@ -71,21 +71,22 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-palette"></i>
+                  <i class="nav-icon fa-solid fa-file"></i> 
                   <p>Sertifikat</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-palette"></i>
+                  <i class="nav-icon fa-solid fa-file-fragment"></i>
+                  <i class=""></i>
                   <p>Dokumen Kegiatan</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-palette"></i>
+                  <i class="nav-icon fa-solid fa-users"></i>
                   <p>Anggota</p>
                 </a>
               </li

@@ -11,8 +11,13 @@ class LoginController extends Controller
         if (Auth::attempt($request->only('email','password'))){
             return redirect('/home');
         }
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->withInput();
+        // ini belum berjalan
+        return redirect ('/login');
+    }
+
+    public function postlogout (Request $request){
+        Auth::logout();
+        return redirect('/login');
+
     }
 }

@@ -76,7 +76,7 @@
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
-  --bs-body-font-size: 0.9rem;
+  --bs-body-font-size: 0.8rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
   --bs-body-color: #212529;
@@ -12942,6 +12942,7 @@ textarea.form-control-lg {
   width: auto;
   max-height: 33px;
   line-height: 0.8;
+
 }
 .sidebar-brand .brand-link .brand-image-xs {
   float: left;
@@ -12961,6 +12962,7 @@ textarea.form-control-lg {
 .sidebar-brand .brand-text {
   margin-left: 0.5rem;
   color: rgba(var(--bs-emphasis-color-rgb), 0.8);
+    font-weight: 600;
   transition: flex 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
