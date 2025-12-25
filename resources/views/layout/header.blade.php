@@ -163,7 +163,15 @@
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
-                <span class="d-none d-md-inline">Sekretaris Umum</span>
+            <span class="d-none d-md-inline">
+                @if(Auth::guard('user')->check())
+                    {{ Auth::guard('user')->user()->name }}
+                @elseif(Auth::guard('anggota')->check())
+                    {{ Auth::guard('anggota')->user()->name }}
+                @endif
+            </span>
+
+
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
@@ -174,7 +182,12 @@
                     alt="User Image"
                   />
                   <p>
-                    Sekretaris Umum
+                  
+                      {{ Auth::guard('user')->check()
+                          ? Auth::guard('user')->user()->name
+                          : Auth::guard('anggota')->user()->name
+                      }}
+
                     <small>Member since Nov. 2023</small>
                   </p>
                 </li>

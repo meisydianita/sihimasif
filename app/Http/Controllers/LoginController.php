@@ -8,16 +8,27 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     public function postlogin (Request $request){
-        if (Auth::attempt($request->only('email','password'))){
+    $credentials = $request->only('email', 'password');
+    // USER (Sekretaris + Bendahara)
+    if (Auth::guard('user')->attempt($credentials)) {
+        $user = Auth::guard('user')->user();
+        if($user->level == 'Sekretaris Umum') {
             return redirect('/home');
+        } else {
+            return redirect('/home-bendum');
         }
-        // ini belum berjalan
-        return redirect ('/login');
+    }
+    
+    // ANGGOTA
+    if (Auth::guard('anggota')->attempt($credentials)) {
+        return redirect('/home-anggota');
+    }
+        return redirect('/login');
     }
 
     public function postlogout (Request $request){
-        Auth::logout();
+        Auth::guard('user')->logout();
+        Auth::guard('anggota')->logout();
         return redirect('/login');
-
     }
 }

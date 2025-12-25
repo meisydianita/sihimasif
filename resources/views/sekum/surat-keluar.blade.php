@@ -1,12 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Main</title>
-</head>
-<body>
-          <!--begin::App Main-->
+  <title>Surat Masuk</title>
+@include('layout.head')
+  <!--begin::Body-->
+  <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
+    <!--begin::App Wrapper-->
+    <div class="app-wrapper">
+      @include('layout.header')
+      @include ('layout.sidebar')
+       <!--begin::App Main-->
       <main class="app-main">
         <!--begin::App Content Header-->
         <div class="app-content-header">
@@ -14,13 +16,13 @@
           <div class="container-fluid">
             <!--begin::Row-->
             <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Fixed Header</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Surat Keluar</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        {{ ucwords(str_replace('-', ' ', basename(request()->path()))) }}
-                    </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                      {{ ucwords(str_replace('-', ' ', basename(request()->path()))) }}
+                  </li>
                 </ol>
               </div>
             </div>
@@ -74,5 +76,10 @@
         <!--end::App Content-->
       </main>
       <!--end::App Main-->
-</body>
+      @include('layout.footer')
+    </div>
+    <!--end::App Wrapper-->
+    @include('layout.script')
+  </body>
+  <!--end::Body-->
 </html>

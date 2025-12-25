@@ -40,12 +40,118 @@
               data-accordion="false"
               id="navigation"
             >
+            @if (Str::length(Auth::guard('user')->user()) > 0)
+            @if (Auth::guard('user')->user()->level=="Sekretaris Umum")
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('home') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-house"></i>
                   <p>Beranda</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa-solid fa-envelope"></i>
+                  <p>
+                    Surat-menyurat
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('surat-masuk') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Surat Masuk</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('surat-keluar') }}" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Surat Keluar</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa-solid fa-file"></i> 
+                  <p>Sertifikat</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa-solid fa-file-fragment"></i>
+                  <i class=""></i>
+                  <p>Dokumen Kegiatan</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa-solid fa-users"></i>
+                  <p>Anggota</p>
+                </a>
+                </li>
+            @endif
+            @endif
+            
+            @if (Str::length(Auth::guard('user')->user()) > 0)
+            @if (Auth::guard('user')->user()->level=="Bendahara Umum")
+              <li class="nav-item">
+                <a href="{{ route('home-bendum') }}" class="nav-link">
+                  <i class="nav-icon fa-solid fa-house"></i>
+                  <p>Beranda</p>
+                </a>
+              </li>
+                <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa-solid fa-envelope"></i>
+                  <p>
+                    Kas Masuk
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Iuran</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Pemasukan</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa-solid fa-file"></i> 
+                  <p>Kas Keluar</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa-solid fa-file-fragment"></i>
+                  <i class=""></i>
+                  <p>Laporan Kas</p>
+                </a>
+              </li>
+            @endif
+            @endif
+
+            @if (Str::length(Auth::guard('anggota')->user()) > 0)
+            @if (Auth::guard('anggota')->user()->level=="Anggota")
+              <li class="nav-item">
+                <a href="{{ route('home-anggota') }}" class="nav-link">
+                  <i class="nav-icon fa-solid fa-house"></i>
+                  <p>Beranda</p>
+                </a>
+              </li>
+
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fa-solid fa-envelope"></i>
@@ -86,11 +192,46 @@
 
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fa-solid fa-users"></i>
-                  <p>Anggota</p>
+                  <i class="nav-icon fa-solid fa-envelope"></i>
+                  <p>
+                    Kas Masuk
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
                 </a>
-              </li
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Iuran</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Pemasukan</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa-solid fa-file"></i> 
+                  <p>Kas Keluar</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa-solid fa-file-fragment"></i>
+                  <i class=""></i>
+                  <p>Laporan Kas</p>
+                </a>
+              </li>
+
+            @endif
+            @endif
             </ul>
+
             <!--end::Sidebar Menu-->
           </nav>
         </div>
