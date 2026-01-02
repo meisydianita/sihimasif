@@ -1,0 +1,110 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Suratmasuk;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+class SuratMasukController extends Controller
+{
+
+    public function index()
+    {
+        $allsuratmasuk = Suratmasuk::all();
+        return view ('sekum.suratmasuk.surat-masuk', compact('allsuratmasuk'));
+    }
+
+    public function create()
+    {
+        return view ('sekum.suratmasuk.add-suratmasuk');
+    }
+
+    public function store(Request $request)
+    {
+        //data akan diproses di sini ketika disubmit
+
+        //buat validasi
+        $validatedData = $request->validate([
+            'nomor_surat' => 'required|string|max:255',
+            'tanggal_surat' => 'required|date',
+            'asal_surat' => 'required|string|max:255',
+            'perihal' => 'required|string|max:255',
+            'file_surat' => 'required|file|mimes:pdf,doc,docx|max:10240'
+        ]);
+
+         // simpan file ke storage
+        $file = $request->file('file_surat');
+        $filename = time().'_'.$file->getClientOriginalName();
+        $file->storeAs('suratmasuk', $filename, 'public');
+
+        // simpan nama file ke database
+        $validatedData['file_surat'] = $filename;
+
+        //simpan data
+        Suratmasuk::create($validatedData);
+
+        // redirect ke index ketika berhasil disimpan
+        return redirect()->route('suratmasuk.index');
+    }
+
+    public function show(SuratMasuk $suratmasuk)
+    {
+        // menampilkan detail data
+        return view ('sekum.surat-masuk', compact ('suratmasuk'));
+    }
+
+    public function edit(SuratMasuk $suratmasuk)
+    {
+        return view ('sekum.suratmasuk.edit-suratmasuk', compact('suratmasuk'));
+    }
+
+    public function update(Request $request, SuratMasuk $suratmasuk)
+    {
+        //function yang akan memproses saat update disubmit
+        //buat validasi
+        $validatedData = $request->validate([
+            'nomor_surat' => 'required|string|max:255',
+            'tanggal_surat' => 'required|date',
+            'asal_surat' => 'required|string|max:255',
+            'perihal' => 'required|string|max:255',
+            'file_surat' => 'nullable|file|mimes:pdf,doc,docx|max:10240'
+        ]);
+
+
+         // CEK: apakah user upload file baru?
+         if ($request->hasFile('file_surat')) {
+
+        // hapus file lama (kalau ada)
+        if ($suratmasuk->file_surat) {
+            Storage::disk('public')->delete('SuratMasuk/'.$suratmasuk->file_surat);
+        }
+
+            // simpan file baru
+            $file = $request->file('file_surat');
+            $filename = time().'_'.$file->getClientOriginalName();
+            $file->storeAs('suratmasuk', $filename, 'public');
+
+            // update nama file di data
+            $validatedData['file_surat'] = $filename;
+        }
+
+        //update data
+        $suratmasuk->update($validatedData);
+
+        // redirect ke index ketika berhasil diupdate
+        return redirect()->route('suratmasuk.index');
+    }
+
+    public function destroy(SuratMasuk $suratmasuk)
+    {
+        $suratmasuk->delete();
+        // redirect ke indext kategori
+        return redirect()->route('suratmasuk.index');
+    }
+
+    public function download (Request $request, SuratMasuk $suratmasuk){
+        return response()->download(public_path('assets/'.$suratmasuk));
+    }
+
+}

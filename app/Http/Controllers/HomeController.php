@@ -17,11 +17,17 @@ class HomeController extends Controller
     public function anggota (){
         return view ('anggota.home-anggota');
     }
-
-    public function suratmasuk (){
-        return view ('sekum.surat-masuk');
+    
+    public function anggotasuratmasuk (){
+        return view ('anggota.surat-masuk');
     }
-    public function suratkeluar (){
-        return view ('sekum.surat-keluar');
+    public function anggotasuratkeluar (){
+        return view ('anggota.surat-keluar');
+    }
+    public function anggotasertifikat (){
+        return view ('anggota.sertifikat');
+    }
+    public function anggotadokumenkegiatan (){
+        return view ('anggota.dokumen-kegiatan');
     }
 }
