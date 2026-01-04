@@ -21,7 +21,7 @@
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
                   <div class="input-group input-group-sm" style="width: 280px;">
-                    <input type="text" name="table_search" class="form-control form-control-sm float-left" placeholder="Search">
+                    <input type="text" name="table_search" class="form-control form-control-sm float-left" placeholder="Pencarian">
                     <div class="input-group-append">
                       <button type="submit" class="btn btn-sm btn-default">
                         <i class="fas fa-search"></i>
@@ -30,14 +30,15 @@
                   </div>
                   <div class="input-group input-group-sm" style="width: 280px;">
                     <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px";>
-                              <option selected>Pilih Divisi</option>
-                              <option value="Kaderisasi">Kaderisasi</option>
-                              <option value="Kesekretariatan">Kesekretariatan</option>
-                              <option value="Mebiskraf">Media Bisnis dan Kreatif</option>
-                              <option value="PSDM">Peningkatan Sumber Daya Mahasiswa</option>
-                              <option value="PM">Pengabdian Masyarakat</option>
-                              <option value="Kerohanian">Kerohanian</option>
-                            </select>  
+                          <option disabled selected value="">Pilih Jenis Surat</option>
+                          <option value="sk_pengangkatan">Surat Kerja Pengangkatan</option>
+                          <option value="peminjaman_tempat_barang">Peminjaman Barang/Tempat</option>
+                          <option value="izin_kegiatan">Izin Kegiatan</option>
+                          <option value="undangan">Undangan</option>
+                          <option value="permohonan_dana">Permohonan Dana</option>
+                          <option value="aktif_organisasi">Aktif Organisasi</option>
+                          <option value="peringatan">Peringatan</option>
+                    </select>  
                   </div>
                   <div class="ms-auto">
                           <a href="{{ route('suratkeluar.create') }}"
@@ -55,6 +56,7 @@
                           <th class="fw-normal">Id</th>
                           <th class="fw-normal">Jenis Surat</th>
                           <th class="fw-normal">Nomor Surat</th>
+                          <th class="fw-normal">Tanggal Surat</th>
                           <th class="fw-normal">Tujuan Surat</th>
                           <th class="fw-normal">Perihal</th>
                           <th class="fw-normal">File Surat</th>
@@ -62,20 +64,59 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
+                        @foreach ($allsuratkeluar as $key => $r)
+                          <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $r->jenis_surat }}</td>
+                            <td>{{ $r->nomor_surat }}</td>
+                            <td>{{ $r->tanggal_surat }}</td>
+                            <td>{{ $r->tujuan_surat }}</td>
+                            <td>{{ $r->perihal }}</td>
+                            <td>
+                              <a href="{{ Storage::url('SuratKeluar/'.$r->file_surat) }}" target="_blank" style="color:inherit;text-decoration:none;">
+                                  <i class="far fa-eye"></i>
+                               </a> |
+                                <a href="{{ Storage::url('SuratKeluar/'.$r->file_surat) }}" download style="color:inherit;text-decoration:none;">
+                                  <i class="fas fa-download"></i>
+                               </a>
+                            </td>
+                            <td>
+                              <form action="{{ route('suratkeluar.destroy', $r->id) }}" method="POST">
+                                  <a href="{{ route('suratkeluar.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
+                                    <i class="fas fa-pen"></i>
+                                  </a>
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="submit" style="background:none;border:none;">
+                                    <i class="fas fa-trash"></i>
+                                  </button>
+                              </form>
+                            </td>
+                          </tr>
+                        @endforeach
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
+              <!-- begin pagination -->
+                <nav aria-label="Page navigation example" class="mt-3">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              <!-- end pagination -->
             </div>
             <!-- /.card -->
           </div>

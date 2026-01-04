@@ -30,8 +30,9 @@
                 <div class="card">
                   <div class="card-header">
                     <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('dokumenkegiatan.store') }}" method="post" enctype="multipart/form-data">
-                  @csrf  
+                  <form class="needs-validation" action="{{ route('dokumenkegiatan.update', $dokumenkegiatan->id) }}" method="post" enctype="multipart/form-data">
+                  @csrf
+                  @method('PUT')  
                   <!--begin::Body-->
                     <div class="card-body">
                       <!--begin::Row-->
@@ -42,7 +43,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            placeholder="Masukkan Nama Kegiatan"
+                            value="{{ $dokumenkegiatan->nama_kegiatan }}"
                             aria-label=".form-control-sm example"
                             name="nama_kegiatan"
                             required
@@ -56,6 +57,7 @@
                             type="date"
                             class="form-control form-control-sm"
                             name="tanggal_mulai"
+                            value="{{ $dokumenkegiatan->tanggal_mulai }}"
                             required
                           />
                         </div>
@@ -67,6 +69,7 @@
                             type="date"
                             class="form-control form-control-sm"
                             name="tanggal_selesai"
+                            value="{{ $dokumenkegiatan->tanggal_selesai }}"
                             required
                           />
                         </div>
@@ -77,7 +80,11 @@
                           <label for="validationCustom01" class="form-label">Penanggungjawab</label>
                             <select name="member_id" id="" class="form-select form-select-sm">
                               @foreach ($penanggungjawab as $p)
-                              <option value="{{ $p->id }}">{{ $p->nama_lengkap }}</option>                              
+                                  <option 
+                                    value="{{ $p->id }}"
+                                    {{ old('member_id', $dokumenkegiatan->member_id) == $p->id ? 'selected' : '' }}>
+                                    {{ $p->nama_lengkap }}
+                                  </option>
                               @endforeach
                             </select>
                         </div>
@@ -89,6 +96,7 @@
                             type="year"
                             class="form-control form-control-sm"
                             name="tahun"
+                            value="{{ $dokumenkegiatan->tahun }}"
                             required
                           />
                         </div>
@@ -98,6 +106,7 @@
                             type="year"
                             class="form-control form-control-sm"
                             name="deskripsi_kegiatan"
+                            value="{{ $dokumenkegiatan->deskripsi_kegiatan }}"
                             required
                           />
                         </div>

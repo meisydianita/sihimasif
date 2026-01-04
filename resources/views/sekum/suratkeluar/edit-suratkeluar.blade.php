@@ -30,8 +30,9 @@
                     </div>
                   @endif
                     <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('suratkeluar.store') }}" method="post" enctype="multipart/form-data">
+                  <form class="needs-validation" action="{{ route('suratkeluar.update', $suratkeluar->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <!--begin::Body-->
                     <div class="card-body">
                       <!--begin::Row-->
@@ -43,15 +44,15 @@
                         class="form-select form-select-sm" 
                         aria-label="Small select example" 
                         name="jenis_surat"
+                        value="{{ $suratkeluar->jenis_surat }}"
                         required>
-                          <option disabled selected value="">Pilih Jenis Surat</option>
-                          <option value="sk_pengangkatan">Surat Kerja Pengangkatan</option>
-                          <option value="peminjaman_tempat_barang">Peminjaman Barang/Tempat</option>
-                          <option value="izin_kegiatan">Izin Kegiatan</option>
-                          <option value="undangan">Undangan</option>
-                          <option value="permohonan_dana">Permohonan Dana</option>
-                          <option value="aktif_organisasi">Aktif Organisasi</option>
-                          <option value="peringatan">Peringatan</option>
+                          <option @if($suratkeluar->jenis_surat == 'sk_pengangkatan') selected @endif value="sk_pengangkatan">Surat Kerja Pengangkatan</option>
+                          <option @if($suratkeluar->jenis_surat == 'peminjaman_tempat_barang') selected @endif value="peminjaman_tempat_barang">Peminjaman Barang/Tempat</option>
+                          <option @if($suratkeluar->jenis_surat == 'izin_kegiatan') selected @endif value="izin_kegiatan">Izin Kegiatan</option>
+                          <option @if($suratkeluar->jenis_surat == 'undangan') selected @endif value="undangan">Undangan</option>
+                          <option @if($suratkeluar->jenis_surat == 'permohonan_dana') selected @endif value="permohonan_dana">Permohonan Dana</option>
+                          <option @if($suratkeluar->jenis_surat == 'aktif_organisasi') selected @endif value="aktif_organisasi">Aktif Organisasi</option>
+                          <option @if($suratkeluar->jenis_surat == 'peringatan') selected @endif value="peringatan">Peringatan</option>
                         </select>
                         </div>
                         <!--end::Col -->
@@ -61,7 +62,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            placeholder="Masukkan Nomor Surat"
+                            value="{{ $suratkeluar->nomor_surat }}"
                             aria-label=".form-control-sm example"
                             name="nomor_surat"
                             required
@@ -75,6 +76,7 @@
                             type="date"
                             class="form-control form-control-sm"
                             name="tanggal_surat"
+                            value="{{ $suratkeluar->tanggal_surat }}"
                             required                            
                           />
                         </div>
@@ -86,7 +88,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            placeholder="Masukkan Tujuan Surat"
+                            value="{{ $suratkeluar->tujuan_surat }}"
                             aria-label=".form-control-sm example"
                             name="tujuan_surat"
                             required
@@ -99,7 +101,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            placeholder="Masukkan Perihal"
+                            value="{{ $suratkeluar->perihal }}"
                             aria-label=".form-control-sm example"
                             name="perihal"
                             required

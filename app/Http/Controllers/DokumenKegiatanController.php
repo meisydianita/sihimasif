@@ -2,63 +2,132 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dokumenkegiatan;
+use App\Models\Member;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class DokumenKegiatanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view ('sekum.dokumenkegiatan.dokumen-kegiatan');
+        $alldokumenkegiatan = Dokumenkegiatan::all();
+        return view ('sekum.dokumenkegiatan.dokumen-kegiatan', compact('alldokumenkegiatan'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view ('sekum.dokumenkegiatan.add-dokumenkegiatan');
+        $penanggungjawab = Member::all();
+        return view ('sekum.dokumenkegiatan.add-dokumenkegiatan', compact('penanggungjawab'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        //data akan diproses di sini ketika disubmit
+
+        // validate data
+        $validatedData=$request->validate([
+            'nama_kegiatan'=>'required|string|max:100',
+            'tanggal_mulai'=>'required|date',
+            'tanggal_selesai'=>'required|date',
+            'member_id'=>'required',
+            'tahun'=>'required|digits:4',
+            'deskripsi_kegiatan'=>'required|string',
+            'proposal'=>'required|file|mimes:pdf,doc,docx|max:10240',
+            'laporan_pertanggungjawaban' => 'required|file|mimes:pdf,doc,docx|max:10240'
+        ]);
+
+        //simpan proposal ke dalam storage
+        $proposal = $request->file('proposal');
+        $proposalname = time().'_'.$proposal->getClientOriginalName();
+        $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
+        
+        //simpan lpj ke dalam storage
+        $lpj = $request->file('laporan_pertanggungjawaban');
+        $lpjname = time().'_'.$lpj->getClientOriginalName();
+        $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
+
+        //simpan nama proposal ke database
+        $validatedData['proposal'] = $proposalname;
+
+        //simpan nama lpj ke database
+        $validatedData['laporan_pertanggungjawaban'] = $lpjname;
+
+        //simpan data
+        Dokumenkegiatan::create($validatedData);
+
+        //redirect to index ketika berhasil disimpan
+        return redirect()->route('dokumenkegiatan.index');
+    }
+    public function show(DokumenKegiatan $dokumenkegiatan)
+    {
+        return view ('sekum.dokumenkegiatan.dokumen-kegiatan', compact ('dokumenkegiatan'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(DokumenKegiatan $dokumenkegiatan)
     {
-        //
+        $penanggungjawab = Member::all();
+        return view ('sekum.dokumenkegiatan.edit-dokumenkegiatan', compact('dokumenkegiatan', 'penanggungjawab'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, DokumenKegiatan $dokumenkegiatan)
     {
-        //
+        // data akan diproses di sini saat disubmit
+
+        // validate data
+        $validatedData=$request->validate([
+            'nama_kegiatan'=>'required|string|max:100',
+            'tanggal_mulai'=>'required|date',
+            'tanggal_selesai'=>'required|date',
+            'member_id'=>'required',
+            'tahun'=>'required|digits:4',
+            'deskripsi_kegiatan'=>'required|string',
+            'proposal'=>'nullable|file|mimes:pdf,doc,docx|max:10240',
+            'laporan_pertanggungjawaban' => 'nullable|file|mimes:pdf,doc,docx|max:10240'
+        ]);
+
+        // cek apakah user upload file proposal baru
+        if($request->hasFile('proposal')){
+           
+           // hapus file ketika sudah ada
+           if($dokumenkegiatan->proposal){
+            Storage::disk('public')->delete('DokumenKegiatan/Proposal'.$dokumenkegiatan->proposal);
+           }
+           // simpan ke file baru
+           $proposal = $request->file('proposal');
+           $proposalname = time().'_'.$proposal->getClientOriginalName();
+           $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
+
+           // update nama file di database
+           $validatedData['proposal']=$proposalname;
+        }
+
+        // cek apakah user upload file lpj baru
+        if($request->hasFile('laporan_pertanggungjawaban')){
+           
+           // hapus file ketika sudah ada
+           if($dokumenkegiatan->laporan_pertanggungjawaban){
+            Storage::disk('public')->delete('DokumenKegiatan/Lpj'.$dokumenkegiatan->laporan_pertanggungjawaban);
+           }
+           // simpan ke file baru
+          $lpj = $request->file('laporan_pertanggungjawaban');
+          $lpjname = time().'_'.$lpj->getClientOriginalName();
+          $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
+
+           // update nama file di database
+           $validatedData['laporan_pertanggungjawaban']=$lpjname;
+        }
+
+        // update data
+        $dokumenkegiatan->update($validatedData);
+
+        //redirect to index ketika berhasil disimpan
+        return redirect()->route('dokumenkegiatan.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(DokumenKegiatan $dokumenkegiatan)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $dokumenkegiatan->delete();
+        return redirect()->route('dokumenkegiatan.index');
     }
 }

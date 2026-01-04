@@ -8,4 +8,5 @@ class Suratkeluar extends Model
 {
     //
     protected $guarded = [];
+    protected $table = 'surat_keluars';
 }

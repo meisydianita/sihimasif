@@ -21,7 +21,7 @@
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
                   <div class="input-group input-group-sm" style="width: 280px;">
-                    <input type="text" name="table_search" class="form-control form-control-sm float-left" placeholder="Search">
+                    <input type="text" name="table_search" class="form-control form-control-sm float-left" placeholder="Pencarian">
                     <div class="input-group-append">
                       <button type="submit" class="btn btn-sm btn-default">
                         <i class="fas fa-search"></i>
@@ -59,19 +59,23 @@
                               <td>{{ $r->asal_surat }}</td>
                               <td>{{ $r->perihal }}</td>
                               <td>
-                                <a href="{{ Storage::url('SuratMasuk//'.$r->file_surat) }}" target="_blank">
+                                <a href="{{ Storage::url('SuratMasuk/'.$r->file_surat) }}" target="_blank" style="color:inherit;text-decoration:none;">
                                   <i class="far fa-eye"></i>
                                </a> |
-                                <a href="{{ Storage::url('SuratMasuk/'.$r->file_surat) }}" download>
+                                <a href="{{ Storage::url('SuratMasuk/'.$r->file_surat) }}" download style="color:inherit;text-decoration:none;">
                                   <i class="fas fa-download"></i>
                                </a>
                               </td>
                               <td>
                                 <form action="{{ route('suratmasuk.destroy', $r->id) }}" method="POST">
-                                  <a href="{{ route('suratmasuk.edit', $r->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                  <a href="{{ route('suratmasuk.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
+                                    <i class="fas fa-pen"></i>
+                                  </a>
                                   @csrf
                                   @method('DELETE')
-                                  <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                  <button type="submit" style="background:none;border:none;" class="justify-content-center">
+                                    <i class="fas fa-trash"></i>
+                                  </button>
                                 </form>
                               </td>
                           </tr>
@@ -80,8 +84,28 @@
                 </table>
               </div>
               <!-- /.card-body -->
+              <!-- begin pagination -->
+                <nav aria-label="Page navigation example" class="mt-3">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              <!-- end pagination -->
             </div>
             <!-- /.card -->
+
           </div>
         </div>
         <!-- /.row -->

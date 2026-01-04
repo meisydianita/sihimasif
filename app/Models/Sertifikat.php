@@ -8,4 +8,5 @@ class Sertifikat extends Model
 {
     //
     protected $guarded = [];
+    protected $table = 'sertifikats';
 }

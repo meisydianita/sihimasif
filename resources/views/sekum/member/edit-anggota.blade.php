@@ -30,8 +30,9 @@
                     </div>
                   @endif
                     <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('member.store') }}" method="post" enctype="multipart/form-data">
-                  @csrf  
+                  <form class="needs-validation" action="{{ route('member.update', $member->id) }}" method="post" enctype="multipart/form-data">
+                  @csrf 
+                  @method('PUT') 
                   <!--begin::Body-->
                     <div class="card-body">
                       <!--begin::Row-->
@@ -41,7 +42,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            placeholder="Masukkan Nomor Pokok Mahasiswa"
+                            value="{{ $member->npm }}"
                             aria-label=".form-control-sm example"
                             name="npm"
                             required
@@ -54,7 +55,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            placeholder="Masukkan Nama Lengkap"
+                            value="{{ $member->nama_lengkap }}"
                             aria-label=".form-control-sm example"
                             name="nama_lengkap"
                             required
@@ -65,7 +66,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="year"
-                            placeholder="Masukkan Tahun Masuk"
+                            value="{{ $member->tahun_masuk }}"
                             aria-label=".form-control-sm example"
                             name="tahun_masuk"
                             />
@@ -74,14 +75,17 @@
                         <!--begin::Col -->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Jabatan</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example" name="jabatan">
+                        <select 
+                        class="form-select form-select-sm" 
+                        aria-label="Small select example" 
+                        name="jabatan">
                           <option disabled selected value="">Pilih Jabatan</option>
-                          <option value="ketua_umum">Ketua Umum</option>
-                          <option value="sekretaris_umum">Sekretaris Umum</option>
-                          <option value="bendahara_umum">Bendahara Umum</option>
-                          <option value="kepala_divisi">Ketua Divisi</option>
-                          <option value="sekretaris_divisi">Sekretaris Divisi</option>
-                          <option value="anggota">Anggota</option>
+                          <option @if($member->jabatan == 'ketua_umum') selected @endif value="ketua_umum">Ketua Umum</option>
+                          <option @if($member->jabatan == 'sekretaris_umum') selected @endif value="sekretaris_umum">Sekretaris Umum</option>
+                          <option @if($member->jabatan == 'bendahara_umum') selected @endif value="bendahara_umum">Bendahara Umum</option>
+                          <option @if($member->jabatan == 'kepala_divisi') selected @endif value="kepala_divisi">Ketua Divisi</option>
+                          <option @if($member->jabatan == 'sekretaris_divisi') selected @endif value="sekretaris_divisi">Sekretaris Divisi</option>
+                          <option @if($member->jabatan == 'anggota') selected @endif value="anggota">Anggota</option>
                         </select>
                         </div>
                         <!--end::Col -->
@@ -89,14 +93,17 @@
                         <!--begin::Col -->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Divisi</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example" name="divisi">
+                        <select 
+                        class="form-select form-select-sm" 
+                        aria-label="Small select example" 
+                        name="divisi">
                           <option disabled selected value="">Pilih Divisi</option>
-                          <option value="Kaderisasi">Kaderisasi</option>
-                          <option value="Kesekretariatan">Kesekretariatan</option>
-                          <option value="Mebiskraf">Media Bisnis dan Kreatif</option>
-                          <option value="PSDM">Peningkatan Sumber Daya Mahasiswa</option>
-                          <option value="PM">Pengabdian Masyarakat</option>
-                          <option value="Kerohanian">Kerohanian</option>
+                          <option @if($member->divisi == 'Kaderisasi') selected @endif value="Kaderisasi">Kaderisasi</option>
+                          <option @if($member->divisi == 'Kesekretariatan') selected @endif value="Kesekretariatan">Kesekretariatan</option>
+                          <option @if($member->divisi == 'Mebiskraf') selected @endif value="Mebiskraf">Media Bisnis dan Kreatif</option>
+                          <option @if($member->divisi == 'PSDM') selected @endif value="PSDM">Peningkatan Sumber Daya Mahasiswa</option>
+                          <option @if($member->divisi == 'PM') selected @endif value="PM">Pengabdian Masyarakat</option>
+                          <option @if($member->divisi == 'Kerohanian') selected @endif value="Kerohanian">Kerohanian</option>
                         </select>
                         </div>
                         <!--end::Col -->
@@ -104,10 +111,13 @@
                         <!--begin::Col -->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Status</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example" name="status" required>
+                        <select 
+                        class="form-select form-select-sm" 
+                        aria-label="Small select example" 
+                        name="status" required>
                           <option disabled selected value="">Pilih Status</option>
-                          <option value="aktif">Aktif</option>
-                          <option value="tidak_aktif">Tidak Aktif</option>
+                          <option @if($member->status == 'aktif') selected @endif value="Aktif">Aktif</option>
+                          <option @if($member->status == 'tidak_aktif') selected @endif value="Tidak Aktif">Tidak Aktif</option>
                         </select>
                         </div>
                         <!--end::Col -->
@@ -117,7 +127,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="email"
-                            placeholder="Masukkan Email"
+                            value="{{ $member->email }}"
                             aria-label=".form-control-sm example"
                             name="email"
                             />
@@ -129,7 +139,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            placeholder="Masukkan No. Telepon"
+                            value="{{ $member->no_hp }}"
                             aria-label=".form-control-sm example"
                             name="no_hp"
                             />
@@ -140,7 +150,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            placeholder="Masukkan Alamat"
+                            value="{{ $member->alamat }}"
                             aria-label=".form-control-sm example"
                             name="alamat"
                             />
@@ -148,7 +158,7 @@
                         <!--begin::Col-->
                         <div class="col-md-6">
                             <label for="foto" class="form-label">Unggah Foto</label>
-                            <input class="form-control form-control-sm" type="file" id="foto" name="foto" accept="image/*" >
+                            <input class="form-control form-control-sm" type="file" id="foto" name="foto" accept="image/*" value="">
                         </div>
                         <!--end::Col-->                     
 

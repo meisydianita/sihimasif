@@ -2,63 +2,104 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Suratkeluar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SuratKeluarController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-         return view ('sekum.suratkeluar.surat-keluar');
+         $allsuratkeluar = Suratkeluar::all();
+         return view ('sekum.suratkeluar.surat-keluar', compact('allsuratkeluar'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view ('sekum.suratkeluar.add-suratkeluar');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        //data akan diproses di sini ketika disubmit
+
+        //validate data
+        $validatedData=$request->validate([
+            'jenis_surat'=>'required',
+            'nomor_surat' => 'required|string|max:255',
+            'tanggal_surat' => 'required|date',
+            'tujuan_surat' => 'required|string|max:255',
+            'perihal' => 'required|string|max:255',
+            'file_surat' => 'required|file|mimes:pdf,doc,docx|max:10240'
+        ]);
+
+        //simpan file ke dalam storage
+        $file =$request->file('file_surat');
+        $filename = time().'_'. $file->getClientOriginalName();
+        $file->storeAs('SuratKeluar', $filename, 'public');
+
+        // simpan nama file ke database
+        $validatedData['file_surat'] = $filename;
+
+        //simpan data
+        Suratkeluar::create($validatedData);
+
+        //redirect to index ketika berhasil disimpan
+        return redirect()->route('suratkeluar.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(SuratKeluar $suratkeluar)
     {
-        //
+        // menampilkan detail data
+        return view ('sekum.suratkeluar.surat-keluar', compact('suratkeluar'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(SuratKeluar $suratkeluar)
     {
-        //
+        return view ('sekum.suratkeluar.edit-suratkeluar', compact('suratkeluar'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, SuratKeluar $suratkeluar)
     {
-        //
+        //function yang memproses saat update disubmit
+        //validate data
+        $validatedData=$request->validate([
+            'jenis_surat'=>'required',
+            'nomor_surat' => 'required|string|max:255',
+            'tanggal_surat' => 'required|date',
+            'tujuan_surat' => 'required|string|max:255',
+            'perihal' => 'required|string|max:255',
+            'file_surat' => 'nullable|file|mimes:pdf,doc,docx|max:10240'
+        ]);
+
+        //cek apakah user upload file baru
+        if ($request->hasFile('file_surat')){
+
+            //hapus file ketika sudah ada
+            if ($suratkeluar->file_surat){
+                Storage::disk('public')->delete('SuratKeluar/'.$suratkeluar->file_surat);
+            }
+            
+            //simpan ke file baru
+            $file =$request->file('file_surat');
+            $filename = time().'_'. $file->getClientOriginalName();
+            $file->storeAs('SuratKeluar', $filename, 'public');
+
+            //update nama file di database
+            $validatedData['file_surat']=$filename;
+        }
+
+        //update data
+        $suratkeluar->update($validatedData);
+
+        //redirect to index ketika berhasil disimpan
+        return redirect()->route('suratkeluar.index');
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(SuratKeluar $suratkeluar)
     {
-        //
+        $suratkeluar->delete();
+        return redirect()->route('suratkeluar.index');
+
     }
 }

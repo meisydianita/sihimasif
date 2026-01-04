@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <title>Surat Masuk</title>
+  <title>Sertifikat</title>
 @include('layout.head')
   <!--begin::Body-->
   <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -21,7 +21,7 @@
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
                   <div class="input-group input-group-sm" style="width: 280px;">
-                    <input type="text" name="table_search" class="form-control form-control-sm float-left" placeholder="Search">
+                    <input type="text" name="table_search" class="form-control form-control-sm float-left" placeholder="Pencarian">
                     <div class="input-group-append">
                       <button type="submit" class="btn btn-sm btn-default">
                         <i class="fas fa-search"></i>
@@ -30,7 +30,7 @@
                   </div>
                   <div class="input-group input-group-sm" style="width: 280px;">
                     <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px";>
-                              <option selected>Pilih Divisi</option>
+                              <option disabled selected value="">Pilih Divisi</option>
                               <option value="Kaderisasi">Kaderisasi</option>
                               <option value="Kesekretariatan">Kesekretariatan</option>
                               <option value="Mebiskraf">Media Bisnis dan Kreatif</option>
@@ -63,21 +63,59 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    
+                    @foreach ($allsertifikat as $key => $r)
+                      <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $r->nomor_sertifikat }}</td>
+                        <td>{{ $r->nama_penerima }}</td>
+                        <td>{{ $r->peran_penerima }}</td>
+                        <td>{{ $r->nama_kegiatan }}</td>
+                        <td>{{ $r->tanggal_sertifikat }}</td>
+                        <td>
+                          <a href="{{ Storage::url('Sertifikat/'.$r->file) }}" target="_blank" style="color:inherit;text-decoration:none;">
+                            <i class="far fa-eye"></i>
+                          </a> |
+                          <a href="{{ Storage::url('Sertifikat/'.$r->file) }}" download style="color:inherit;text-decoration:none;">
+                            <i class="fas fa-download"></i>
+                          </a>
+                        </td>
+                        <td>
+                          <form action="{{ route('sertifikat.destroy', $r->id) }}" method="POST">
+                            <a href="{{ route('sertifikat.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
+                              <i class="fas fa-pen"></i>
+                            </a>
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="background:none;border:none;">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                    @endforeach                                       
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
+              <!-- begin pagination -->
+                <nav aria-label="Page navigation example" class="mt-3">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              <!-- end pagination -->
             </div>
             <!-- /.card -->
           </div>

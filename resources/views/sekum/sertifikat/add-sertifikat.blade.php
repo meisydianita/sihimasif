@@ -90,7 +90,7 @@
 
 
                         <div class="d-flex justify-content-center gap-2">
-                            <button class="btn btn-sm btn-outline-secondary" type="button">Batal</button>
+                            <a href="{{ route('sertifikat.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
                             <button class="btn btn-sm btn-dark" type="submit">Kirim</button> 
                         </div>
 

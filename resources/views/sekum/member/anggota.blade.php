@@ -67,24 +67,63 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
+                        @foreach ($allmember as $key=>$r)
+                          <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $r->npm }}</td>
+                            <td>{{ $r->nama_lengkap }}</td>
+                            <td>{{ $r->tahun_masuk }}</td>
+                            <td>{{ $r->jabatan }}</td>
+                            <td>{{ $r->divisi }}</td>
+                            <td>{{ $r->status }}</td>
+                            <td>{{ $r->email }}</td>
+                            <td>{{ $r->no_hp }}</td>
+                            <td>{{ $r->alamat }}</td>
+                            <td>
+                              <a href="{{ Storage::url('Member/'.$r->foto) }}" target="_blank" style="color:inherit;text-decoration:none;">
+                                <img src="{{ Storage::url('Member/'.$r->foto) }}" 
+                              class="img-thumbnail"
+                              style="width: 80px; height: 80px; object-fit: cover;">
+                              </a>
+                            </td>
+                            <td>
+                              <form action="{{ route('member.destroy', $r->id) }}" method="POST">
+                                  <a href="{{ route('member.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
+                                    <i class="fas fa-pen"></i>
+                                  </a>
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="submit" style="background:none;border:none;">
+                                    <i class="fas fa-trash"></i>
+                                  </button>
+                              </form>
+                            </td>
+                            </td>
+                          </tr>
+                        @endforeach                        
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
+              <!-- begin pagination -->
+                <nav aria-label="Page navigation example" class="mt-3">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              <!-- end pagination -->
             </div>
             <!-- /.card -->
           </div>

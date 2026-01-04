@@ -30,20 +30,20 @@
                   </div>
                   <div class="input-group input-group-sm" style="width: 280px;">
                     <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px";>
-                              <option selected>Pilih Divisi</option>
-                              <option value="Kaderisasi">Kaderisasi</option>
-                              <option value="Kesekretariatan">Kesekretariatan</option>
-                              <option value="Mebiskraf">Media Bisnis dan Kreatif</option>
-                              <option value="PSDM">Peningkatan Sumber Daya Mahasiswa</option>
-                              <option value="PM">Pengabdian Masyarakat</option>
-                              <option value="Kerohanian">Kerohanian</option>
-                            </select>  
+                      <option disabled selected value="">Pilih Divisi</option>
+                      <option value="Kaderisasi">Kaderisasi</option>
+                      <option value="Kesekretariatan">Kesekretariatan</option>
+                      <option value="Mebiskraf">Media Bisnis dan Kreatif</option>
+                      <option value="PSDM">Peningkatan Sumber Daya Mahasiswa</option>
+                      <option value="PM">Pengabdian Masyarakat</option>
+                      <option value="Kerohanian">Kerohanian</option>
+                    </select>  
                   </div>
                   <div class="ms-auto">
-                          <a href="{{ route('dokumenkegiatan.create') }}"
+                      <a href="{{ route('dokumenkegiatan.create') }}"
                             class="btn btn-sm btn-dark">
                             Tambah
-                          </a>
+                      </a>
                   </div>
               </div>
               </div> 
@@ -65,23 +65,68 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    
+                    @foreach ($alldokumenkegiatan as $key => $r)
+                      <tr>
+                        <td>{{ $key +1 }}</td>
+                        <td>{{ $r->nama_kegiatan }}</td>
+                        <td>{{ $r->tanggal_mulai }}</td>
+                        <td>{{ $r->tanggal_selesai }}</td>
+                        <td>{{ $r->penanggungjawab->nama_lengkap }}</td>
+                        <td>{{ $r->tahun }}</td>
+                        <td>{{ $r->deskripsi_kegiatan }}</td>
+                        <td>
+                          <a href="{{ Storage::url('DokumenKegiatan/Proposal/'.$r->proposal) }}" target="_blank" style="color:inherit;text-decoration:none;">
+                            <i class="far fa-eye"></i>
+                          </a> |
+                          <a href="{{ Storage::url('DokumenKegiatan/Proposal/'.$r->proposal) }}" download style="color:inherit;text-decoration:none;">
+                            <i class="fas fa-download"></i>
+                          </a>
+                        </td>
+                        <td>
+                          <a href="{{ Storage::url('DokumenKegiatan/Lpj/'.$r->laporan_pertanggungjawaban) }}" target="_blank" style="color:inherit;text-decoration:none;">
+                            <i class="far fa-eye"></i>
+                          </a> |
+                          <a href="{{ Storage::url('DokumenKegiatan/Lpj/'.$r->laporan_pertanggungjawaban) }}" download style="color:inherit;text-decoration:none;">
+                            <i class="fas fa-download"></i>
+                          </a>
+                        </td>
+                        <td>
+                          <form action="{{ route('dokumenkegiatan.destroy', $r->id) }}" method="POST">
+                            <a href="{{ route('dokumenkegiatan.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
+                              <i class="fas fa-pen"></i>
+                            </a>
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="background:none;border:none;">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </form>
+                        </td>
+                      </tr>                   
+                    @endforeach                  
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
+              <!-- begin pagination -->
+                <nav aria-label="Page navigation example" class="mt-3">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              <!-- end pagination -->
             </div>
             <!-- /.card -->
           </div>

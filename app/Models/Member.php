@@ -8,4 +8,9 @@ class Member extends Model
 {
     //
     protected $guarded = [];
+    protected $table = 'members';
+    public function dokumenKegiatan()
+    {
+        return $this->hasMany(DokumenKegiatan::class, 'member_id');
+    }
 }

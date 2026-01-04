@@ -30,99 +30,89 @@
                     </div>
                   @endif
                     <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('suratkeluar.store') }}" method="post" enctype="multipart/form-data">
+                  <form class="needs-validation" action="{{ route('sertifikat.update', $sertifikat->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <!--begin::Body-->
+                    @method('PUT') 
+                  <!--begin::Body-->
                     <div class="card-body">
                       <!--begin::Row-->
                       <div class="row g-3">
+                        <div class="col-md-6">
+                          <label for="validationCustom01" class="form-label">Nomor Sertifikat</label>
+                            <input
+                            class="form-control form-control-sm"
+                            type="text"
+                            name="nomor_sertifikat"
+                            value="{{ $sertifikat->nomor_sertifikat }}"
+                            aria-label=".form-control-sm example"
+                            required
+                            />
+                        </div>
+
+                        <!--begin::Col-->
+                        <div class="col-md-6">
+                          <label for="validationCustom01" class="form-label">Nama Penerima</label>
+                            <input
+                            class="form-control form-control-sm"
+                            type="text"
+                            value="{{ $sertifikat->nama_penerima }}"
+                            aria-label=".form-control-sm example"
+                            name="nama_penerima"
+                            />
+                        </div>
+                        <!--end::Col-->
                         <!--begin::Col -->
                         <div class="col-md-6">
-                          <label for="validationCustom02" class="form-label">Jenis</label>
+                          <label for="validationCustom02" class="form-label">Peran Penerima</label>
                         <select 
                         class="form-select form-select-sm" 
-                        aria-label="Small select example" 
-                        name="jenis_surat"
+                        aria-label="Small select example"
+                        name="peran_penerima"
+                        value="{{ $sertifikat->peran_penerima }}"
                         required>
-                          <option disabled selected value="">Pilih Jenis Surat</option>
-                          <option value="sk_pengangkatan">Surat Kerja Pengangkatan</option>
-                          <option value="peminjaman_tempat_barang">Peminjaman Barang/Tempat</option>
-                          <option value="izin_kegiatan">Izin Kegiatan</option>
-                          <option value="undangan">Undangan</option>
-                          <option value="permohonan_dana">Permohonan Dana</option>
-                          <option value="aktif_organisasi">Aktif Organisasi</option>
-                          <option value="peringatan">Peringatan</option>
+                          <option disabled selected value="">Pilih Peran Penerima</option>
+                          <option @if($sertifikat->peran_penerima == 'Pemateri') selected @endif value="Pemateri">Pemateri</option>
+                          <option @if($sertifikat->peran_penerima == 'Peserta') selected @endif value="Peserta">Peserta</option>
+                          <option @if($sertifikat->peran_penerima == 'Panitia') selected @endif value="Panitia">Panitia</option>
                         </select>
                         </div>
                         <!--end::Col -->
                         <!--begin::Col-->
                         <div class="col-md-6">
-                          <label for="validationCustom01" class="form-label">Nomor Surat</label>
+                          <label for="validationCustom01" class="form-label">Nama Kegiatan</label>
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            placeholder="Masukkan Nomor Surat"
+                            value="{{ $sertifikat->nama_kegiatan }}"
                             aria-label=".form-control-sm example"
-                            name="nomor_surat"
+                            name="nama_kegiatan"
                             required
                             />
                         </div>
                         <!--end::Col-->
                         <!--begin::Col-->
                         <div class="col-md-6">
-                          <label for="validationCustom02" class="form-label">Tanggal Surat</label>
+                          <label for="validationCustom02" class="form-label">Tanggal Sertifikat</label>
                           <input
                             type="date"
                             class="form-control form-control-sm"
-                            name="tanggal_surat"
-                            required                            
+                            name="tanggal_sertifikat"
+                            value="{{ $sertifikat->tanggal_sertifikat }}"
+                            required
                           />
                         </div>
-                        <!--end::Col-->                     
-
-                        <!--begin::Col-->
-                        <div class="col-md-6">
-                          <label for="validationCustom01" class="form-label">Tujuan Surat</label>
-                            <input
-                            class="form-control form-control-sm"
-                            type="text"
-                            placeholder="Masukkan Tujuan Surat"
-                            aria-label=".form-control-sm example"
-                            name="tujuan_surat"
-                            required
-                            />
-                        </div>
-
-                        <!--begin::Col-->
-                        <div class="col-md-6">
-                          <label for="validationCustom01" class="form-label">Perihal</label>
-                            <input
-                            class="form-control form-control-sm"
-                            type="text"
-                            placeholder="Masukkan Perihal"
-                            aria-label=".form-control-sm example"
-                            name="perihal"
-                            required
-                            />
-                        </div>
-
                         <div class="col-md-6">
                             <label for="formFile" class="form-label">Unggah Dokumen</label>
-                            <input class="form-control form-control-sm" type="file" id="formFile" name="file_surat">
+                            <input class="form-control form-control-sm" type="file" id="formFile">
                         </div>
-                        <!--end::Col-->
+                        <!--end::Col-->                     
                         <!--begin::Col-->
-
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="{{ route('suratkeluar.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
-                            <button class="btn btn-sm btn-dark" type="submit" >Kirim</button> 
+                            <a href="{{ route('sertifikat.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
+                            <button class="btn btn-sm btn-dark" type="submit">Kirim</button> 
                         </div>
-
                         <!--end::Col-->
-
-                        <!--end::Col-->
-
-                        
+                       
                       </div>
                       <!--end::Row-->
                     </div>

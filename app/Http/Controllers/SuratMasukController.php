@@ -36,7 +36,7 @@ class SuratMasukController extends Controller
          // simpan file ke storage
         $file = $request->file('file_surat');
         $filename = time().'_'.$file->getClientOriginalName();
-        $file->storeAs('suratmasuk', $filename, 'public');
+        $file->storeAs('SuratMasuk', $filename, 'public');
 
         // simpan nama file ke database
         $validatedData['file_surat'] = $filename;
@@ -51,7 +51,7 @@ class SuratMasukController extends Controller
     public function show(SuratMasuk $suratmasuk)
     {
         // menampilkan detail data
-        return view ('sekum.surat-masuk', compact ('suratmasuk'));
+        return view ('sekum.suratmasuk.surat-masuk', compact ('suratmasuk'));
     }
 
     public function edit(SuratMasuk $suratmasuk)
@@ -75,18 +75,18 @@ class SuratMasukController extends Controller
          // CEK: apakah user upload file baru?
          if ($request->hasFile('file_surat')) {
 
-        // hapus file lama (kalau ada)
-        if ($suratmasuk->file_surat) {
-            Storage::disk('public')->delete('SuratMasuk/'.$suratmasuk->file_surat);
-        }
+            // hapus file lama (kalau ada)
+            if ($suratmasuk->file_surat) {
+                Storage::disk('public')->delete('SuratMasuk/'.$suratmasuk->file_surat);
+            }
 
-            // simpan file baru
-            $file = $request->file('file_surat');
-            $filename = time().'_'.$file->getClientOriginalName();
-            $file->storeAs('suratmasuk', $filename, 'public');
+                // simpan file baru
+                $file = $request->file('file_surat');
+                $filename = time().'_'.$file->getClientOriginalName();
+                $file->storeAs('SuratMasuk', $filename, 'public');
 
-            // update nama file di data
-            $validatedData['file_surat'] = $filename;
+                // update nama file di data
+                $validatedData['file_surat'] = $filename;
         }
 
         //update data

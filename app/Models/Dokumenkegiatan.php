@@ -8,4 +8,9 @@ class Dokumenkegiatan extends Model
 {
     //
     protected $guarded = [];
+    protected $table  = 'dokumen_kegiatans';
+    public function penanggungjawab()
+    {
+        return $this->belongsTo(Member::class, 'member_id');
+    }
 }
